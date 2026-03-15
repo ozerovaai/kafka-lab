@@ -1,5 +1,5 @@
 from kafka import KafkaProducer
-from generator import generate_library_event
+from generator import generate_carsharing_event
 import time
 
 producer = KafkaProducer(
@@ -7,13 +7,10 @@ producer = KafkaProducer(
     value_serializer=lambda v: v.encode("utf-8")
 )
 
-topic = "library"
+topic = "carsharing"
 
 while True:
-    message = generate_library_event()
-
+    message = generate_carsharing_event()
     print("Produced:", message)
-
     producer.send(topic, message)
-
-    time.sleep(3)
+    time.sleep(2)  # генерация каждые 2 секунды
