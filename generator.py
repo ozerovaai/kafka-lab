@@ -2,24 +2,15 @@ import random
 import json
 from datetime import datetime
 
-books = [
-    "War and Peace",
-    "Crime and Punishment",
-    "The Hobbit",
-    "1984",
-    "The Master and Margarita"
-]
-
 users = ["Ivan", "Anna", "Sergey", "Maria", "Alex"]
+cars = ["Tesla Model 3", "BMW i3", "Audi e-tron", "Volkswagen ID.4", "Nissan Leaf"]
+actions = ["start_ride", "end_ride"]
 
-actions = ["borrow", "return"]
-
-def generate_library_event():
+def generate_carsharing_event():
     data = {
         "user": random.choice(users),
-        "book": random.choice(books),
+        "car": random.choice(cars),
         "action": random.choice(actions),
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
-
     return json.dumps(data)
