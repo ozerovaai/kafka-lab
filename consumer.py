@@ -4,7 +4,9 @@ import json
 consumer = KafkaConsumer(
     "carsharing",
     bootstrap_servers="localhost:9092",
-    value_deserializer=lambda m: m.decode("utf-8")
+    value_deserializer=lambda m: json.loads(m.decode("utf-8")),  # ИСПРАВЛЕНО
+    auto_offset_reset='earliest',
+    enable_auto_commit=True
 )
 
 def validate(data):
@@ -17,12 +19,8 @@ def validate(data):
     return True
 
 for message in consumer:
-    msg = message.value
-    try:
-        data = json.loads(msg)
-        if validate(data):
-            print("VALID:", data)
-        else:
-            print("NOT VALID:", msg)
-    except Exception:
-        print("NOT VALID:", msg)
+    data = message.value  # Теперь data - это словарь!
+    if validate(data):
+        print("VALID:", data)
+    else:
+        print("NOT VALID:", data)
